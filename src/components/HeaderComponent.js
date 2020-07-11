@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Navbar, NavbarBrand, Jumbotron, NavbarToggler, Collapse, NavItem, Nav} from "reactstrap";
-import {NavLink} from "react-router-dom"
+import {NavLink, Link} from "react-router-dom"
 
 class Header extends Component {
     constructor(props) {
@@ -12,14 +12,14 @@ class Header extends Component {
     }
     toggleNavbar() {
         this.setState({isOpen: !this.state.isOpen})
-        console.log(`state is ${this.state.isOpen}`)
+        
     }
     render() {
         return(
             <React.Fragment>
                 <Navbar dark color="primary" expand="md">
                 <div className="container">
-                    <NavbarBrand href="/" className="mr-auto">Ristorante Con Fusion</NavbarBrand>
+                    <NavbarBrand className="mr-auto" to="/home" tag={Link}>Ristorante Con Fusion</NavbarBrand>
                     <NavbarToggler onClick={this.toggleNavbar} />
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="mr-auto" navbar>
