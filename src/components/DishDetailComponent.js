@@ -1,17 +1,33 @@
 import React, {Component} from "react";
 import { Card, CardBody, CardTitle, CardText, CardImg } from "reactstrap"
 
-export default function DishDetail(props) {
-    if (props.selectedDish) {
-        return (<RenderDish selectedDish={props.selectedDish}/>)
-    } else {
-        return <div></div>
-    }  
+export function DishDetailFromDishID({match, dishes, comments}) {
+    const dishId = parseInt(match.params.dishId,10)
+    const dish = dishes.filter(dish => dish.id === dishId)[0]
+    const dishComments = comments.filter(comment => comment.dishId === dishId)
+    return <DishCommentsDetail selectedDish={dish} selectedComments={dishComments}/>
+}
+
+function DishCommentsDetail({selectedDish, selectedComments}) {
+    return (
+        <div className="container">
+            <div className="row">
+                <div className="col-12 col-md-5">
+                    <RenderDish selectedDish={selectedDish}/>
+                </div>
+                <div className="col-12 col-md-5">
+                    <RenderComments selectedComments={selectedComments} />
+                </div>
+            </div>
+        </div>
+    )
+    
 }   
 
-function Comment(props) {
-    if (props.selectedDish) {
-        const comments = props.selectedDish.comments.map(comment => {
+function RenderComments({selectedComments}) {
+    console.log(selectedComments)
+    if (selectedComments) {
+        const comments = selectedComments.map(comment => {
             return (
                 <div key={comment.id} className="m-2">
                     <p>{comment.comment}</p>
@@ -19,32 +35,30 @@ function Comment(props) {
                 </div>
             )
         })
-        return comments
+        return (
+            comments
+        )
     } else {
         return <div></div>
     }
 }
 
 const RenderDish = ({selectedDish}) =>{
-    return (
-        <div className="container">
-            <div className="row">
-                <div className="col-12 col-md-5">
-                    <Card>
-                        <CardImg src={selectedDish.image} top/>
-                        <CardBody>
-                            <CardTitle>{selectedDish.name}</CardTitle>
-                            <CardText>{selectedDish.description}</CardText>
-                        </CardBody>
-                    </Card>
-                </div>
-                <div className="col-12 col-md-5">
-                    <Comment selectedDish={selectedDish}/>
-                </div>
-            </div>
+    if (selectedDish) {
+        return (
 
-        </div>
-    )
+            <Card>
+                <CardImg src={selectedDish.image} top/>
+                <CardBody>
+                    <CardTitle>{selectedDish.name}</CardTitle>
+                    <CardText>{selectedDish.description}</CardText>
+                </CardBody>
+            </Card>
+                    
+        )
+    }
+    else return <div></div>
+    
 }
 
 // class DishDetailClass extends Component {

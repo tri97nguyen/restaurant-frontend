@@ -1,24 +1,32 @@
 import React from "react";
-import { Card, CardBody, CardImg, CardText, CardTitle } from "reactstrap";
-
+import { Card, CardBody, CardImg, CardText, CardTitle, Breadcrumb, BreadcrumbItem } from "reactstrap";
+import { Link } from "react-router-dom"
 
 export default function Menu(props) {
     const menu = props.dishes.map(dish => {
         return (
             <div key={dish.id} className="col-12 col-md-5">
-                <Card>
-                    <CardImg src={dish.image} alt={dish.name}></CardImg>
-                    <CardBody>
-                        <CardTitle>{dish.name}</CardTitle>
-                        <CardText>{dish.description}</CardText>
-                    </CardBody>
-                </Card>
+                <Link to={`/menu/${dish.id}`}>
+                    <Card>
+                        <CardImg src={dish.image} alt={dish.name}></CardImg>
+                        <CardBody>
+                            <CardTitle>{dish.name}</CardTitle>
+                            <CardText>{dish.description}</CardText>
+                        </CardBody>
+                    </Card>
+                </Link>
             </div>
         )
-
     })
     return (
         <div className="container">
+            <div className="row">
+                <Breadcrumb>
+                    <BreadcrumbItem><Link to="/home">Home</Link></BreadcrumbItem>
+                    <BreadcrumbItem active>Menu</BreadcrumbItem>
+                </Breadcrumb>
+                
+            </div>
             <div className="row">
                 {menu}
             </div>

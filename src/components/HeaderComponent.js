@@ -1,22 +1,72 @@
 import React, {Component} from "react";
-import {Navbar, NavbarBrand, Jumbotron, NavbarToggler, Collapse, NavItem, Nav} from "reactstrap";
+import {Navbar, NavbarBrand, Jumbotron, NavbarToggler, Collapse, NavItem, Nav, Modal, ModalHeader, ModalFooter, ModalBody, Button, Form, FormGroup, Label, Input, Col } from "reactstrap";
 import {NavLink, Link} from "react-router-dom"
 
 class Header extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            isOpen: false
+            isOpen: false,
+            modalIsOpen:false
         }
+        this.usernameInput = React.createRef()
+        this.passwordInput = React.createRef()
         this.toggleNavbar = this.toggleNavbar.bind(this)
+        this.toggleModal = this.toggleModal.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
     toggleNavbar() {
         this.setState({isOpen: !this.state.isOpen})
-        
+    }
+
+    toggleModal() {
+        this.setState(prevState => {
+            return { modalIsOpen: !prevState.modalIsOpen }
+        })
+    }
+
+    handleSubmit(e) {
+        const username = this.usernameInput.current.value
+        const password = this.passwordInput.current.value
+        alert(`username is ${username}\npassword is ${password}`)
+        e.preventDefault()
     }
     render() {
         return(
             <React.Fragment>
+                <Modal size="md" isOpen={this.state.modalIsOpen} toggle={this.toggleModal}>
+                    <ModalHeader>Sign In</ModalHeader>
+                    <ModalBody>
+                        <Form onSubmit={this.handleSubmit}>
+                            <FormGroup row>
+                                <Col md={{size:2}}>
+                                    <Label for="username">Username</Label>
+                                </Col>
+                                <Col md={{size:8, offset:1}}>
+                                    <Input innerRef={this.usernameInput} type="text" id="username" name="username" />
+                                </Col>
+                                
+                            </FormGroup>
+                            <FormGroup row>
+                                <Col md={{size:2}}>
+                                    <Label for="password">Password</Label>
+                                </Col>
+                                <Col md={{size:8, offset:1}}>
+                                    <Input innerRef={this.passwordInput} type="password" id="password" name="password" />
+                                </Col>
+                            </FormGroup>
+                            <FormGroup row>
+                                <Col md={{size:10, offset:3}}>
+                                    <Button className="mr-1">Sign In</Button>
+                                    <Button onClick={this.toggleModal}>Cancel</Button>
+                                </Col>
+                                
+                            </FormGroup>
+                        </Form>
+                    </ModalBody>
+                    
+                </Modal>
+                
                 <Navbar dark color="primary" expand="md">
                 <div className="container">
                     <NavbarBrand className="mr-auto" to="/home" tag={Link}>Ristorante Con Fusion</NavbarBrand>
@@ -35,7 +85,9 @@ class Header extends Component {
                             <NavItem>
                                 <NavLink className="nav-link" to="/contactus"><span className="fa fa-address-card fa-lg">Contact Us</span></NavLink>
                             </NavItem>
+                            
                         </Nav>
+                        <Button color="success" onClick={this.toggleModal}>Sign In</Button>
                     </Collapse>
                 </div>
                 </Navbar>
