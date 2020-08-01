@@ -1,9 +1,14 @@
 import React from "react";
 import { Card, CardBody, CardImg, CardText, CardTitle, Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { Link } from "react-router-dom"
+import { Loading } from "./LoadingComponent"
 
 export default function Menu(props) {
-    const menu = props.dishes.map(dish => {
+    if (props.dishes.isLoading) {
+        return <Loading></Loading>
+    }
+
+    const menu = props.dishes.dishes.map(dish => {
         return (
             <div key={dish.id} className="col-12 col-md-5">
                 <Link to={`/menu/${dish.id}`}>

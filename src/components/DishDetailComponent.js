@@ -1,14 +1,19 @@
 import React, {Component} from "react";
-import { Card, CardBody, CardTitle, CardText, CardImg } from "reactstrap"
+import { Card, CardBody, CardTitle, CardText, CardImg, Button } from "reactstrap"
+import CommentForm from "./CommentFormComponent"
+import { Loading } from "./LoadingComponent"
 
-export function DishDetailFromDishID({match, dishes, comments}) {
+export function DishDetailFromDishID({match, dishes, comments, addComment, isLoading, errMess}) {
+    if (isLoading) return <Loading></Loading>
+    if (errMess) return <h1>{errMess}</h1>
     const dishId = parseInt(match.params.dishId,10)
+    console.log(`dishId is ${dishId}`)
     const dish = dishes.filter(dish => dish.id === dishId)[0]
     const dishComments = comments.filter(comment => comment.dishId === dishId)
-    return <DishCommentsDetail selectedDish={dish} selectedComments={dishComments}/>
+    return <DishCommentsDetail selectedDish={dish} selectedComments={dishComments} addComment={addComment} dishId={dishId}/>
 }
 
-function DishCommentsDetail({selectedDish, selectedComments}) {
+function DishCommentsDetail({selectedDish, selectedComments, addComment, dishId}) {
     return (
         <div className="container">
             <div className="row">
@@ -16,7 +21,7 @@ function DishCommentsDetail({selectedDish, selectedComments}) {
                     <RenderDish selectedDish={selectedDish}/>
                 </div>
                 <div className="col-12 col-md-5">
-                    <RenderComments selectedComments={selectedComments} />
+                    <RenderComments selectedComments={selectedComments} addComment={addComment} dishId={dishId}/>
                 </div>
             </div>
         </div>
@@ -24,7 +29,7 @@ function DishCommentsDetail({selectedDish, selectedComments}) {
     
 }   
 
-function RenderComments({selectedComments}) {
+function RenderComments({selectedComments, addComment, dishId}) {
     console.log(selectedComments)
     if (selectedComments) {
         const comments = selectedComments.map(comment => {
@@ -36,7 +41,12 @@ function RenderComments({selectedComments}) {
             )
         })
         return (
-            comments
+            <React.Fragment>
+                {comments}
+                
+                <CommentForm addComment={addComment} dishId={dishId}></CommentForm>
+            </React.Fragment>
+            
         )
     } else {
         return <div></div>

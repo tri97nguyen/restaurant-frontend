@@ -1,13 +1,13 @@
 import React from "react"
 import {Card, CardBody, CardImg, CardTitle, CardText, CardSubtitle} from "reactstrap"
-
+import { Loading } from "./LoadingComponent"
 
 export default function Home(props) {
     return (
         <div className="container">
             <div className="row row-content">
                 <div className="col-12 col-md">
-                    <RenderCard item={props.dish}/>
+                    <RenderCard item={props.dish} errMess={props.dishesErrMess} isLoading={props.dishesLoading}/>
                 </div>
                 <div className="col-12 col-md">
                     <RenderCard item={props.leader}/>
@@ -23,7 +23,9 @@ export default function Home(props) {
     )
 }
 
-const RenderCard = function({item}) {
+const RenderCard = function({item, isLoading, errMess}) {
+    if (isLoading) return (<Loading></Loading>)
+    if (errMess) return <h1>{errMess}</h1>
     return(
         <Card>
             <CardImg top src={item.image} width="100%" top/>
