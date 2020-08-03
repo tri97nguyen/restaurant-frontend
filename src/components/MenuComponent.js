@@ -2,6 +2,7 @@ import React from "react";
 import { Card, CardBody, CardImg, CardText, CardTitle, Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { Link } from "react-router-dom"
 import { Loading } from "./LoadingComponent"
+import { BASE_URL } from "../shared/baseUrl";
 
 export default function Menu(props) {
     if (props.dishes.isLoading) {
@@ -13,7 +14,7 @@ export default function Menu(props) {
             <div key={dish.id} className="col-12 col-md-5">
                 <Link to={`/menu/${dish.id}`}>
                     <Card>
-                        <CardImg src={dish.image} alt={dish.name}></CardImg>
+                        <CardImg src={ BASE_URL + dish.image} alt={dish.name}></CardImg>
                         <CardBody>
                             <CardTitle>{dish.name}</CardTitle>
                             <CardText>{dish.description}</CardText>

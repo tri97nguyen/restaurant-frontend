@@ -12,7 +12,7 @@ import {Switch, Route, Redirect, withRouter} from "react-router-dom"
 import {DishDetailFromDishID} from './DishDetailComponent'
 import About from "./AboutComponent"
 import { connect } from "react-redux"
-import { addComment, fetchDishes } from '../redux/actionCreator'
+import { addComment, fetchDishes, fetchComments, fetchPromotion } from '../redux/actionCreator'
 import { actions } from 'react-redux-form';
 
 const mapStateToProps = state => {
@@ -27,6 +27,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   addComment: (dishId, rating, author, comment) => dispatch(addComment(dishId, rating, author, comment)),
   fetchDishes: () => { dispatch(fetchDishes()) },
+  fetchComments: () => {dispatch(fetchComments())},
+  fetchPromotion: () => {dispatch(fetchPromotion())},
   resetFeedbackForm: () => { dispatch(actions.reset('feedback')) }
 })
 
@@ -38,6 +40,8 @@ class Main extends Component {
 
   componentDidMount() {
     this.props.fetchDishes()
+    this.props.fetchComments()
+    this.props.fetchPromotion()
   }
   
 
@@ -51,12 +55,12 @@ class Main extends Component {
                                                     dishesLoading={this.props.dishes.isLoading}
                                                     dishesErrMess={this.props.dishes.errMess}
 
-                                                    promotion={this.props.promotions.filter(promo => promo.featured)[0]} 
+                                                    promotion={this.props.promotions} 
                                                     leader={this.props.leaders.filter(leader => leader.featured)[0]}
                                                      />}/>
           <Route exact path="/menu" component={() => <Menu  dishes={this.props.dishes} />} />
           {/* <Route path="/menu/:dishId" component={match => <DishDetail selectedDish={this.props.dishes.dishes.filter(dish => dish.id === match.dishId)[0]}/>} /> */}
-          <Route path="/menu/:dishId" component={(props) => <DishDetailFromDishID match={props.match} dishes={this.props.dishes.dishes} isLoading={this.props.dishes.isLoading} errMess={this.props.dishes.errMess} comments={this.props.comments} addComment={this.props.addComment} />} />
+          <Route path="/menu/:dishId" component={(props) => <DishDetailFromDishID match={props.match} dishes={this.props.dishes.dishes} isLoading={this.props.dishes.isLoading} errMess={this.props.dishes.errMess} comments={this.props.comments.comments} addComment={this.props.addComment} />} />
           <Route exact path="/contactus" component={() => { return <Contact resetFeedbackForm={this.props.resetFeedbackForm} /> }} />
           <Route path="/about" component={() => <About leaders={this.props.leaders}/>} />
           <Redirect to="/home"/>

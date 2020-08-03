@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import { Card, CardBody, CardTitle, CardText, CardImg, Button } from "reactstrap"
 import CommentForm from "./CommentFormComponent"
 import { Loading } from "./LoadingComponent"
+import { BASE_URL } from "../shared/baseUrl";
 
 export function DishDetailFromDishID({match, dishes, comments, addComment, isLoading, errMess}) {
     if (isLoading) return <Loading></Loading>
@@ -58,7 +59,7 @@ const RenderDish = ({selectedDish}) =>{
         return (
 
             <Card>
-                <CardImg src={selectedDish.image} top/>
+                <CardImg src={ BASE_URL + selectedDish.image} top/>
                 <CardBody>
                     <CardTitle>{selectedDish.name}</CardTitle>
                     <CardText>{selectedDish.description}</CardText>
