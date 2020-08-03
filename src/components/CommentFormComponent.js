@@ -25,7 +25,7 @@ export default class CommentForm extends Component {
     formSubmit(value) {
         this.toggleModal()
         // console.log(JSON.stringify(value))
-        this.props.addComment(this.props.dishId, value.rating, value.customerName, value.comment)
+        this.props.postComment(this.props.dishId, value.rating, value.customerName, value.comment)
     }
     
     

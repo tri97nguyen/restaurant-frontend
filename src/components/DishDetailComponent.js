@@ -4,7 +4,7 @@ import CommentForm from "./CommentFormComponent"
 import { Loading } from "./LoadingComponent"
 import { BASE_URL } from "../shared/baseUrl";
 
-export function DishDetailFromDishID({match, dishes, comments, commentsErrMess, addComment, isLoading, errMess}) {
+export function DishDetailFromDishID({match, dishes, comments, commentsErrMess, postComment, isLoading, errMess}) {
     if (isLoading) return <Loading></Loading>
     if (errMess) return <h1>{errMess}</h1>
     const dishId = parseInt(match.params.dishId,10)
@@ -13,13 +13,13 @@ export function DishDetailFromDishID({match, dishes, comments, commentsErrMess, 
     const dishComments = comments.filter(comment => comment.dishId === dishId)
     return <DishCommentsDetail selectedDish={dish} 
                                 selectedComments={dishComments} 
-                                addComment={addComment} 
+                                postComment={postComment} 
                                 dishId={dishId}
                                 commentsErrMess={commentsErrMess}
             />
 }
 
-function DishCommentsDetail({selectedDish, selectedComments, addComment, dishId, commentsErrMess}) {
+function DishCommentsDetail({selectedDish, selectedComments, postComment, dishId, commentsErrMess}) {
     
     return (
         <div className="container">
@@ -28,7 +28,7 @@ function DishCommentsDetail({selectedDish, selectedComments, addComment, dishId,
                     <RenderDish selectedDish={selectedDish}/>
                 </div>
                 <div className="col-12 col-md-5">
-                    <RenderComments selectedComments={selectedComments} addComment={addComment} dishId={dishId} commentsErrMess={commentsErrMess}/>
+                    <RenderComments selectedComments={selectedComments} postComment={postComment} dishId={dishId} commentsErrMess={commentsErrMess}/>
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@ function DishCommentsDetail({selectedDish, selectedComments, addComment, dishId,
     
 }   
 
-function RenderComments({selectedComments, addComment, dishId, commentsErrMess}) {
+function RenderComments({selectedComments, postComment, dishId, commentsErrMess}) {
     
     if (commentsErrMess) return <h1>{commentsErrMess}</h1>
     if (selectedComments) {
@@ -52,7 +52,7 @@ function RenderComments({selectedComments, addComment, dishId, commentsErrMess})
             <React.Fragment>
                 {comments}
                 
-                <CommentForm addComment={addComment} dishId={dishId}></CommentForm>
+                <CommentForm postComment={postComment} dishId={dishId}></CommentForm>
             </React.Fragment>
             
         )

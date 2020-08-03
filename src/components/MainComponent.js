@@ -12,7 +12,7 @@ import {Switch, Route, Redirect, withRouter} from "react-router-dom"
 import {DishDetailFromDishID} from './DishDetailComponent'
 import About from "./AboutComponent"
 import { connect } from "react-redux"
-import { addComment, fetchDishes, fetchComments, fetchPromotion } from '../redux/actionCreator'
+import { postComment, fetchDishes, fetchComments, fetchPromotion } from '../redux/actionCreator'
 import { actions } from 'react-redux-form';
 
 const mapStateToProps = state => {
@@ -25,7 +25,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  addComment: (dishId, rating, author, comment) => dispatch(addComment(dishId, rating, author, comment)),
+  postComment: (dishId, rating, author, comment) => dispatch(postComment(dishId, rating, author, comment)),
   fetchDishes: () => { dispatch(fetchDishes()) },
   fetchComments: () => {dispatch(fetchComments())},
   fetchPromotion: () => {dispatch(fetchPromotion())},
@@ -66,7 +66,7 @@ class Main extends Component {
                                                                                   errMess={this.props.dishes.errMess} 
                                                                                   comments={this.props.comments.comments} 
                                                                                   commentsErrMess={this.props.comments.errmes}
-                                                                                  addComment={this.props.addComment} />} />
+                                                                                  postComment={this.props.postComment} />} />
           <Route exact path="/contactus" component={() => { return <Contact resetFeedbackForm={this.props.resetFeedbackForm} /> }} />
           <Route path="/about" component={() => <About leaders={this.props.leaders}/>} />
           <Redirect to="/home"/>

@@ -2,19 +2,37 @@ import * as ActionTypes from "./actionTypes"
 import { DISHES } from "../shared/dishes"
 import { BASE_URL } from "../shared/baseUrl";
 import { PROMOTIONS } from "../shared/promotions";
-export const addComment = (dishId, rating, comment, author) => ({
+export const addComment = comment => ({
     type: ActionTypes.ADD_COMMENT,
-    payload: {
-        dishId: dishId,
-        rating: rating,
-        comment: comment,
-        author: author
-    }
+    payload: comment
 })
+
+export const postComment = (dishId, rating, comment, author) => dispatch => {
+    const newComment = {
+        dishId, rating, comment, author
+    }
+    newComment.date = new Date().toISOString()
+    fetch( BASE_URL + 'comments', {
+        method: "POST",
+        body: JSON.stringify(newComment),
+        headers: {
+            "Content-Type": "application/json"
+        },
+        credentials: "same-origin"
+    })
+    .then(response => {
+        if (response.ok) return response.json()
+        else {
+            throw new Error('some thing went wrong')
+        }
+    }, error => {throw error})
+    .then(data => dispatch(addComment(data)))
+    .catch(error => console.error(error))
+}
 
 export const fetchDishes = () => (dispatch) => {
     dispatch(dishesLoading(true))
-    fetch(BASE_URL + "dishess")
+    fetch(BASE_URL + "dishes")
     .then(response => {
         if (response.ok) return response.json()
         else {
