@@ -8,6 +8,7 @@ export default function Menu(props) {
     if (props.dishes.isLoading) {
         return <Loading></Loading>
     }
+    if (props.dishes.errMess) return <h1>{props.dishes.errMess}</h1>
 
     const menu = props.dishes.dishes.map(dish => {
         return (

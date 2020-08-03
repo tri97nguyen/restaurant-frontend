@@ -60,7 +60,13 @@ class Main extends Component {
                                                      />}/>
           <Route exact path="/menu" component={() => <Menu  dishes={this.props.dishes} />} />
           {/* <Route path="/menu/:dishId" component={match => <DishDetail selectedDish={this.props.dishes.dishes.filter(dish => dish.id === match.dishId)[0]}/>} /> */}
-          <Route path="/menu/:dishId" component={(props) => <DishDetailFromDishID match={props.match} dishes={this.props.dishes.dishes} isLoading={this.props.dishes.isLoading} errMess={this.props.dishes.errMess} comments={this.props.comments.comments} addComment={this.props.addComment} />} />
+          <Route path="/menu/:dishId" component={(props) => <DishDetailFromDishID match={props.match} 
+                                                                                  dishes={this.props.dishes.dishes} 
+                                                                                  isLoading={this.props.dishes.isLoading} 
+                                                                                  errMess={this.props.dishes.errMess} 
+                                                                                  comments={this.props.comments.comments} 
+                                                                                  commentsErrMess={this.props.comments.errmes}
+                                                                                  addComment={this.props.addComment} />} />
           <Route exact path="/contactus" component={() => { return <Contact resetFeedbackForm={this.props.resetFeedbackForm} /> }} />
           <Route path="/about" component={() => <About leaders={this.props.leaders}/>} />
           <Redirect to="/home"/>

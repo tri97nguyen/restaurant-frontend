@@ -14,11 +14,16 @@ export const addComment = (dishId, rating, comment, author) => ({
 
 export const fetchDishes = () => (dispatch) => {
     dispatch(dishesLoading(true))
-    fetch(BASE_URL + "dishes").then(response => response.json()).then(data => dispatch(addDishes(data)))
-    .catch(error => {dispatch(dishesFailed(error.toString()))})
-    // setTimeout(() => {
-    //     dispatch(addDishes(DISHES))
-    // }, 2000)
+    fetch(BASE_URL + "dishess")
+    .then(response => {
+        if (response.ok) return response.json()
+        else {
+            throw new Error('Cannot retrieve dishes from server')
+        }
+    }, error => {throw Error(error.toString())})
+    .then(data => dispatch(addDishes(data)))
+    .catch(error => {dispatch(dishesFailed(error.message))})
+    
 }
 
 export const dishesLoading = () => {
@@ -39,9 +44,19 @@ export const dishesFailed = errmes => ({
 
 export const fetchComments = () => dispatch => {
     fetch(BASE_URL + 'comments')
-    .then(res => res.json())
+    .then(res => {
+        if (res.ok)
+            return res.json()
+        else {
+            console.log('response not ok')
+            let error = new Error(`Error ${res.status}: ${res.statusText}`)
+            error.response = res
+            throw error
+        }
+    }, error => dispatch(commentsFailed(error.toString())))
     .then(comments => dispatch(addComments(comments)))
-    .catch(error => dispatch(commentsFailed(error.toString())))
+    .catch(error => {console.log('outer catch');dispatch(commentsFailed(error.message))})
+    
 }
 
 export const addComments = (comments) => ({
@@ -57,8 +72,13 @@ export const commentsFailed = errmes => ({
 export const fetchPromotion = () => dispatch => {
     dispatch(promotionLoading())
     fetch(BASE_URL + 'promotions')
-    .then(res => res.json()
-    .then(promo => dispatch(addPromotion(promo))))
+    .then(res => {
+        if (res.ok) return res.json()
+        else {
+            throw new Error(`Error ${res.status}: ${res.statusText}`)
+        }
+    }, error => {throw error})
+    .then(promo => dispatch(addPromotion(promo)))
     .catch(error => dispatch(promotionFailed(error.toString())))
     
 }

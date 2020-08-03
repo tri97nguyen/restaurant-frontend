@@ -4,17 +4,23 @@ import CommentForm from "./CommentFormComponent"
 import { Loading } from "./LoadingComponent"
 import { BASE_URL } from "../shared/baseUrl";
 
-export function DishDetailFromDishID({match, dishes, comments, addComment, isLoading, errMess}) {
+export function DishDetailFromDishID({match, dishes, comments, commentsErrMess, addComment, isLoading, errMess}) {
     if (isLoading) return <Loading></Loading>
     if (errMess) return <h1>{errMess}</h1>
     const dishId = parseInt(match.params.dishId,10)
     console.log(`dishId is ${dishId}`)
     const dish = dishes.filter(dish => dish.id === dishId)[0]
     const dishComments = comments.filter(comment => comment.dishId === dishId)
-    return <DishCommentsDetail selectedDish={dish} selectedComments={dishComments} addComment={addComment} dishId={dishId}/>
+    return <DishCommentsDetail selectedDish={dish} 
+                                selectedComments={dishComments} 
+                                addComment={addComment} 
+                                dishId={dishId}
+                                commentsErrMess={commentsErrMess}
+            />
 }
 
-function DishCommentsDetail({selectedDish, selectedComments, addComment, dishId}) {
+function DishCommentsDetail({selectedDish, selectedComments, addComment, dishId, commentsErrMess}) {
+    
     return (
         <div className="container">
             <div className="row">
@@ -22,7 +28,7 @@ function DishCommentsDetail({selectedDish, selectedComments, addComment, dishId}
                     <RenderDish selectedDish={selectedDish}/>
                 </div>
                 <div className="col-12 col-md-5">
-                    <RenderComments selectedComments={selectedComments} addComment={addComment} dishId={dishId}/>
+                    <RenderComments selectedComments={selectedComments} addComment={addComment} dishId={dishId} commentsErrMess={commentsErrMess}/>
                 </div>
             </div>
         </div>
@@ -30,8 +36,9 @@ function DishCommentsDetail({selectedDish, selectedComments, addComment, dishId}
     
 }   
 
-function RenderComments({selectedComments, addComment, dishId}) {
-    console.log(selectedComments)
+function RenderComments({selectedComments, addComment, dishId, commentsErrMess}) {
+    
+    if (commentsErrMess) return <h1>{commentsErrMess}</h1>
     if (selectedComments) {
         const comments = selectedComments.map(comment => {
             return (
