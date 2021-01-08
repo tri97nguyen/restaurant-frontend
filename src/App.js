@@ -1,24 +1,29 @@
-import React, { Component } from 'react'; //different
+import React, { Component, useContext, createContext } from 'react'; //different
 import Main from "./components/MainComponent"
-import {BrowserRouter} from "react-router-dom"
-import { Provider } from "react-redux"
-import { ConfigureStore } from "./redux/configureStore"
+import { BrowserRouter } from "react-router-dom"
+import dishes from './shared/dishes'
+import leaders from './shared/leaders'
+import promotions from './shared/promotions'
 
-const store = ConfigureStore()
 
+export const ContextProvider = createContext(null)
+const store = { dishes, leaders, promotions }
 class App extends Component {
 
   render() {
     return (
-      <Provider store={store} >
+      <ContextProvider.Provider value={store}>
+
         <BrowserRouter>
-          <div className="App"> 
+          <div className="App">
             <Main />
           </div>
         </BrowserRouter>
-      </Provider>
-      
-      
+
+      </ContextProvider.Provider>
+
+
+
     );
   }
 }

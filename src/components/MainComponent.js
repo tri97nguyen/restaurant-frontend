@@ -8,29 +8,11 @@ import Menu from './MenuComponent'
 
 import Home from "./HomeComponent"
 import Contact from "./ContactComponent"
-import {Switch, Route, Redirect, withRouter} from "react-router-dom"
-import {DishDetailFromDishID} from './DishDetailComponent'
+import { Switch, Route, Redirect, withRouter } from "react-router-dom"
+import { DishDetailFromDishID } from './DishDetailComponent'
 import About from "./AboutComponent"
-import { connect } from "react-redux"
-import { postComment, fetchDishes, fetchComments, fetchPromotion } from '../redux/actionCreator'
-import { actions } from 'react-redux-form';
 
-const mapStateToProps = state => {
-  return {
-    dishes: state.dishes,
-    comments: state.comments,
-    promotions: state.promotions,
-    leaders: state.leaders
-  }
-}
 
-const mapDispatchToProps = dispatch => ({
-  postComment: (dishId, rating, author, comment) => dispatch(postComment(dishId, rating, author, comment)),
-  fetchDishes: () => { dispatch(fetchDishes()) },
-  fetchComments: () => {dispatch(fetchComments())},
-  fetchPromotion: () => {dispatch(fetchPromotion())},
-  resetFeedbackForm: () => { dispatch(actions.reset('feedback')) }
-})
 
 
 class Main extends Component {
@@ -38,40 +20,28 @@ class Main extends Component {
     super(props);
   }
 
-  componentDidMount() {
-    this.props.fetchDishes()
-    this.props.fetchComments()
-    this.props.fetchPromotion()
-  }
-  
 
 
   render() {
     return (
-      <div className="App"> 
-        <Header/>
+      <div className="App">
+        <Header />
         <Switch>
-          <Route path="/home" component={()=> <Home dish={this.props.dishes.dishes.filter(dish => dish.featured)[0]} 
-                                                    dishesLoading={this.props.dishes.isLoading}
-                                                    dishesErrMess={this.props.dishes.errMess}
-
-                                                    promotion={this.props.promotions} 
-                                                    leader={this.props.leaders.filter(leader => leader.featured)[0]}
-                                                     />}/>
-          <Route exact path="/menu" component={() => <Menu  dishes={this.props.dishes} />} />
+          <Route path="/home" component={() => <Home />} />
+          <Route exact path="/menu" component={() => <Menu dishes={this.props.dishes} />} />
           {/* <Route path="/menu/:dishId" component={match => <DishDetail selectedDish={this.props.dishes.dishes.filter(dish => dish.id === match.dishId)[0]}/>} /> */}
-          <Route path="/menu/:dishId" component={(props) => <DishDetailFromDishID match={props.match} 
-                                                                                  dishes={this.props.dishes.dishes} 
-                                                                                  isLoading={this.props.dishes.isLoading} 
-                                                                                  errMess={this.props.dishes.errMess} 
-                                                                                  comments={this.props.comments.comments} 
-                                                                                  commentsErrMess={this.props.comments.errmes}
-                                                                                  postComment={this.props.postComment} />} />
+          <Route path="/menu/:dishId" component={(props) => <DishDetailFromDishID match={props.match}
+            dishes={this.props.dishes.dishes}
+            isLoading={this.props.dishes.isLoading}
+            errMess={this.props.dishes.errMess}
+            comments={this.props.comments.comments}
+            commentsErrMess={this.props.comments.errmes}
+            postComment={this.props.postComment} />} />
           <Route exact path="/contactus" component={() => { return <Contact resetFeedbackForm={this.props.resetFeedbackForm} /> }} />
-          <Route path="/about" component={() => <About leaders={this.props.leaders}/>} />
-          <Redirect to="/home"/>
+          <Route path="/about" component={() => <About leaders={this.props.leaders} />} />
+          <Redirect to="/home" />
         </Switch>
-        <Footer/>
+        <Footer />
 
         {/* <Header/>
         <Menu  dishes={this.props.dishes} getSelectedDishID={dishID => this.onDishSelect(dishID)} />
@@ -82,4 +52,4 @@ class Main extends Component {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main))
+export default withRouter(Main)
