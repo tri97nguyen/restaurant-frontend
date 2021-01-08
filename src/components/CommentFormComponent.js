@@ -18,20 +18,18 @@ export default class CommentForm extends Component {
 
     toggleModal() {
         this.setState(prevState => {
-            return ({isModalOpen: !prevState.isModalOpen})
+            return ({ isModalOpen: !prevState.isModalOpen })
         })
     }
 
     formSubmit(value) {
         this.toggleModal()
         // console.log(JSON.stringify(value))
-        this.props.postComment(this.props.dishId, value.rating, value.customerName, value.comment)
+        postComment(this.props.dishId, value.rating, value.customerName, value.comment)
     }
-    
-    
 
     render() {
-        return(
+        return (
             <React.Fragment>
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
                     <ModalBody>
@@ -42,7 +40,7 @@ export default class CommentForm extends Component {
                                     placeholder="Your Name"
                                     className="form-control"
                                     validators={
-                                        {required1: required, minLength2: minLength(3), maxLength3: maxLength(15)}
+                                        { required1: required, minLength2: minLength(3), maxLength3: maxLength(15) }
                                     }
                                 />
                                 <Errors
@@ -56,7 +54,7 @@ export default class CommentForm extends Component {
                                             maxLength3: "maximum length is 15"
                                         }
                                     }
-                                
+
                                 />
                             </FormGroup>
 
@@ -64,26 +62,31 @@ export default class CommentForm extends Component {
                                 <Label htmlFor="rating">Rating</Label>
                                 <Control.select model=".rating" id="rating" name="rating" placeholder="Rating" className="form-control">
                                     <option value="1">1</option>
-                                    <option value="2">2</option> 
+                                    <option value="2">2</option>
                                     <option value="3">3</option>
                                     <option value="4">4</option>
                                     <option value="5">5</option>
                                 </Control.select>
                             </FormGroup>
-                            
+
                             <FormGroup row className="mr-2 ml-2">
                                 <Label htmlFor="comment">Comment</Label>
                                 <Control.textarea model=".comment" id="comment" name="comment" className="form-control" />
                                 <Button type="submit" className="mt-2" color="primary">Submit</Button>
                             </FormGroup>
-                            
-                            
+
+
                         </LocalForm>
                     </ModalBody>
                 </Modal>
                 <Button outline color="primary" onClick={this.toggleModal}>Submit Comment</Button>
-                
+
             </React.Fragment>
         )
     }
+}
+
+function postComment(obj) {
+    alert("post comment")
+    console.log(obj)
 }

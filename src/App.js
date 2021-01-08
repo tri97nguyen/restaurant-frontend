@@ -4,10 +4,10 @@ import { BrowserRouter } from "react-router-dom"
 import dishes from './shared/dishes'
 import leaders from './shared/leaders'
 import promotions from './shared/promotions'
-
+import comments from './shared/comments'
 
 export const ContextProvider = createContext(null)
-const store = { dishes, leaders, promotions }
+const store = { dishes, leaders, promotions, comments }
 class App extends Component {
 
   render() {
