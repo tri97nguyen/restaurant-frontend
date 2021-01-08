@@ -1,21 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Card, CardBody, CardImg, CardText, CardTitle, Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { Link } from "react-router-dom"
 import { Loading } from "./LoadingComponent"
 import { BASE_URL } from "../shared/baseUrl";
-
+import { ContextProvider } from '../App'
 export default function Menu(props) {
-    if (props.dishes.isLoading) {
-        return <Loading></Loading>
-    }
-    if (props.dishes.errMess) return <h1>{props.dishes.errMess}</h1>
+    // if (props.dishes.isLoading) {
+    //     return <Loading></Loading>
+    // }
 
-    const menu = props.dishes.dishes.map(dish => {
+
+    // if (props.dishes.errMess) return <h1>{props.dishes.errMess}</h1>
+    var { dishes } = useContext(ContextProvider)
+    const menu = dishes.map(dish => {
         return (
             <div key={dish.id} className="col-12 col-md-5">
                 <Link to={`/menu/${dish.id}`}>
                     <Card>
-                        <CardImg src={ BASE_URL + dish.image} alt={dish.name}></CardImg>
+                        <CardImg src={BASE_URL + dish.image} alt={dish.name}></CardImg>
                         <CardBody>
                             <CardTitle>{dish.name}</CardTitle>
                             <CardText>{dish.description}</CardText>
@@ -32,7 +34,7 @@ export default function Menu(props) {
                     <BreadcrumbItem><Link to="/home">Home</Link></BreadcrumbItem>
                     <BreadcrumbItem active>Menu</BreadcrumbItem>
                 </Breadcrumb>
-                
+
             </div>
             <div className="row">
                 {menu}
@@ -72,7 +74,7 @@ export default function Menu(props) {
 //     render() {
 //         const menu = this.props.dishes.map(dish => {
 //             return (
-                
+
 //                 <div key={dish.id} className="col-12 col-md-5" >
 //                     <Card onClick={() => this.props.something(dish.id)}>
 //                         <CardImg top src={dish.image} alt={dish.name} ></CardImg>

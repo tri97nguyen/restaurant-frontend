@@ -1,19 +1,20 @@
-import React from "react"
+import React, { useContext } from "react"
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from "reactstrap"
 import { Link } from "react-router-dom"
+import { ContextProvider } from '../App'
 
-export default function About({leaders}) {
-    
+export default function About() {
+    var { leaders } = useContext(ContextProvider)
 
     return (
         <div className="container">
             <div className="row">
-                
+
                 <Breadcrumb>
                     <BreadcrumbItem><Link to="/home">Home</Link></BreadcrumbItem>
                     <BreadcrumbItem active>About Us</BreadcrumbItem>
                 </Breadcrumb>
-                
+
                 <div className="col-12">
                     <h1>About Us</h1>
                 </div>
@@ -62,7 +63,7 @@ export default function About({leaders}) {
                 </div>
                 <div className="col-12">
                     <Media list>
-                        <RenderLeaders leaders={leaders} />
+                        <RenderLeaders leadersList={leaders} />
                     </Media>
                 </div>
             </div>
@@ -70,8 +71,8 @@ export default function About({leaders}) {
 
     )
 
-    function RenderLeaders({leaders}) {
-        const leaders_ = leaders.map(leader => 
+    function RenderLeaders({ leadersList }) {
+        leadersList = leadersList.map(leader =>
             <Media className="mt-5 mb-5">
                 {console.log(`/public${leader.image}`)}
                 <Media left >
@@ -91,7 +92,7 @@ export default function About({leaders}) {
 
         return (
             <Media list>
-                {leaders_}
+                {leadersList}
             </Media>
         )
     }

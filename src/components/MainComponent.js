@@ -28,7 +28,7 @@ class Main extends Component {
         <Header />
         <Switch>
           <Route path="/home" component={() => <Home />} />
-          <Route exact path="/menu" component={() => <Menu dishes={this.props.dishes} />} />
+          <Route exact path="/menu" component={() => <Menu />} />
           {/* <Route path="/menu/:dishId" component={match => <DishDetail selectedDish={this.props.dishes.dishes.filter(dish => dish.id === match.dishId)[0]}/>} /> */}
           <Route path="/menu/:dishId" component={(props) => <DishDetailFromDishID match={props.match}
             dishes={this.props.dishes.dishes}

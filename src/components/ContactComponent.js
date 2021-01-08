@@ -4,7 +4,7 @@ import { Breadcrumb, BreadcrumbItem, FormGroup, Label, Input, Col, Row, Button, 
 import { Link } from "react-router-dom"
 import { Control, Form, Errors } from "react-redux-form"
 
-export default class Contact extends Component {   
+export default class Contact extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -27,13 +27,30 @@ export default class Contact extends Component {
         this.handlingInputChange = this.handlingInputChange.bind(this)
     }
 
+    resetFeedbackForm() {
+        this.setState({
+            firstname: '',
+            lastname: '',
+            telnum: '',
+            checkbox: false,
+            contactPrefer: '',
+            message: '',
+            formValid: {
+                firstname: false,
+                lastname: false,
+                telnum: false
+            }
+        })
+    }
+
     handlingInputChange(event) {
         this.updateData(event)
         this.formValidation(event)
     }
 
     handleSubmit = values => {
-        this.props.resetFeedbackForm()
+        Contact.prototype.resetFeedbackForm()
+        // resetFeedbackForm()
         alert(JSON.stringify(values))
     }
 
@@ -48,9 +65,9 @@ export default class Contact extends Component {
 
 
 
-        if (name === "firstname") {            
-            if (alphabetOnlyReg.test(value)) {   
-                formFeedBack.innerHTML = ""             
+        if (name === "firstname") {
+            if (alphabetOnlyReg.test(value)) {
+                formFeedBack.innerHTML = ""
                 target.classList.remove("is-invalid")
                 target.classList.add("is-valid")
                 this.setState(prevState => {
@@ -58,62 +75,62 @@ export default class Contact extends Component {
                     formValid[name] = true
                     return { formValid }
                 })
-            } else {            
-                formFeedBack.innerHTML = 'First name should contain only character a-z'     
+            } else {
+                formFeedBack.innerHTML = 'First name should contain only character a-z'
                 target.classList.add("is-invalid")
-                target.classList.remove("is-valid")          
+                target.classList.remove("is-valid")
                 this.setState(prevState => {
                     let formValid = { ...prevState.formValid }
                     formValid[name] = false
                     return { formValid }
-                }) 
+                })
             }
         }
         else if (name === "lastname") {
-            if (alphabetOnlyReg.test(value)) {   
-                formFeedBack.innerHTML = ""             
+            if (alphabetOnlyReg.test(value)) {
+                formFeedBack.innerHTML = ""
                 target.classList.remove("is-invalid")
                 target.classList.add("is-valid")
                 this.setState(prevState => {
                     let formValid = { ...prevState.formValid }
                     formValid[name] = true
                     return { formValid }
-                }) 
-            } else {            
-                formFeedBack.innerHTML = 'Last name should contain only character a-z'     
+                })
+            } else {
+                formFeedBack.innerHTML = 'Last name should contain only character a-z'
                 target.classList.add("is-invalid")
                 target.classList.remove("is-valid")
                 this.setState(prevState => {
                     let formValid = { ...prevState.formValid }
                     formValid[name] = false
                     return { formValid }
-                }) 
+                })
             }
         }
         else if (name === "telnum") {
-            if (numberOnlyReg.test(value)) {   
-                formFeedBack.innerHTML = ""             
+            if (numberOnlyReg.test(value)) {
+                formFeedBack.innerHTML = ""
                 target.classList.remove("is-invalid")
                 target.classList.add("is-valid")
                 this.setState(prevState => {
                     let formValid = { ...prevState.formValid }
                     formValid[name] = true
                     return { formValid }
-                }) 
-            } else {            
-                formFeedBack.innerHTML = 'Tel. Number should be 0-9'     
+                })
+            } else {
+                formFeedBack.innerHTML = 'Tel. Number should be 0-9'
                 target.classList.add("is-invalid")
                 target.classList.remove("is-valid")
                 this.setState(prevState => {
                     let formValid = { ...prevState.formValid }
                     formValid[name] = false
                     return { formValid }
-                }) 
+                })
             }
         }
         console.log(`object values are ${Object.values(this.state.formValid)}`)
         console.log(Object.values(this.state.formValid).every(ele => ele === true))
-        
+
     }
 
     updateData = event => {
@@ -133,7 +150,7 @@ export default class Contact extends Component {
         const buttonElement = e.target
         console.log(`button element is ${buttonElement}`)
         buttonElement.addEventListener('click', () => alert('i am alive'))
-        buttonElement.addEventListener('click', (ev) => {ev.target.innerText = "Hide!"})
+        buttonElement.addEventListener('click', (ev) => { ev.target.innerText = "Hide!" })
     }
 
     render() {
@@ -186,7 +203,7 @@ export default class Contact extends Component {
                             <Control.text model=".firstname" id="firstname" name="firstname"
                                 placeholder="First Name"
                                 className="form-control"
-                                    />
+                            />
                         </Col>
                     </Row>
                     <Row className="form-group">
@@ -195,7 +212,7 @@ export default class Contact extends Component {
                             <Control.text model=".lastname" id="lastname" name="lastname"
                                 placeholder="Last Name"
                                 className="form-control"
-                                    />
+                            />
                         </Col>
                     </Row>
                     <Row className="form-group">
@@ -204,7 +221,7 @@ export default class Contact extends Component {
                             <Control.text model=".telnum" id="telnum" name="telnum"
                                 placeholder="Tel. Number"
                                 className="form-control"
-                                    />
+                            />
                         </Col>
                     </Row>
                     <Row className="form-group">
@@ -216,17 +233,17 @@ export default class Contact extends Component {
                         </Col>
                     </Row>
                     <Row className="form-group">
-                        <Col md={{size: 6, offset: 2}}>
+                        <Col md={{ size: 6, offset: 2 }}>
                             <div className="form-check">
                                 <Label check>
                                     <Control.checkbox model=".agree" name="agree"
                                         className="form-check-input"
-                                            /> {' '}
-                                        <strong>May we contact you?</strong>
+                                    /> {' '}
+                                    <strong>May we contact you?</strong>
                                 </Label>
                             </div>
                         </Col>
-                        <Col md={{size: 3, offset: 1}}>
+                        <Col md={{ size: 3, offset: 1 }}>
                             <Control.select model=".contactType" name="contactType"
                                 className="form-control">
                                 <option>Tel.</option>
@@ -243,9 +260,9 @@ export default class Contact extends Component {
                         </Col>
                     </Row>
                     <Row className="form-group">
-                        <Col md={{size:10, offset: 2}}>
+                        <Col md={{ size: 10, offset: 2 }}>
                             <Button type="submit" color="primary">
-                            Send Feedback
+                                Send Feedback
                             </Button>
                         </Col>
                     </Row>
@@ -253,7 +270,7 @@ export default class Contact extends Component {
 
 
             </div>
-    
+
         )
     }
 
@@ -276,7 +293,7 @@ function ControlledForm(props) {
                 <Label for="lastname" className="col-md-2">Last Name</Label>
                 <Col sm={7}>
                     <p>{props.formInput.lastname}</p>
-                    <Input type="text"  id="lastname" name="lastname" onChange={props.handlingOnChange}/>
+                    <Input type="text" id="lastname" name="lastname" onChange={props.handlingOnChange} />
                     <FormFeedback tag='p' id="lastnameFeedback"></FormFeedback>
                 </Col>
             </FormGroup>
@@ -284,22 +301,22 @@ function ControlledForm(props) {
                 <Label type="number" for="telnum" className="col-md-2">Tel. Number</Label>
                 <Col sm={7}>
                     <p>{props.formInput.telnum}</p>
-                    <Input  id="telnum" name="telnum" onChange={props.handlingOnChange}/>
+                    <Input id="telnum" name="telnum" onChange={props.handlingOnChange} />
                     <FormFeedback tag='p' id="telnumFeedback"></FormFeedback>
                 </Col>
             </FormGroup>
             <FormGroup row>
-                
-                <Col md={{size:3, offset:2}}>
+
+                <Col md={{ size: 3, offset: 2 }}>
                     <FormGroup check>
                         <Label for="checkbox">
                             <p>{`${props.formInput.checkbox}`}</p>
-                            <Input type="checkbox" id="checkbox" name="checkbox" onChange={props.handlingOnChange}/>
+                            <Input type="checkbox" id="checkbox" name="checkbox" onChange={props.handlingOnChange} />
                             Do you want contact?
                         </Label>
                     </FormGroup>
                 </Col>
-                <Col md={{size:3, offset:1}}>
+                <Col md={{ size: 3, offset: 1 }}>
                     <FormGroup>
                         <p>{props.formInput.contactPrefer}</p>
                         <Input type="select" name="contactPrefer" id="contactPrefer" onChange={props.handlingOnChange}>
@@ -318,27 +335,27 @@ function ControlledForm(props) {
                         rows="12"
                         value={null}
                         onChange={props.handlingOnChange}
-                        ></Input>
+                    ></Input>
                 </Col>
             </FormGroup>
 
             <FormGroup row>
-                <Col md={{size:3, offset:2}}>
+                <Col md={{ size: 3, offset: 2 }}>
                     <Button>Submit</Button>
                 </Col>
             </FormGroup>
-            
+
 
         </Form>
     )
 }
 
-    
 
 
 
 
-    
+
+
 
 
 
