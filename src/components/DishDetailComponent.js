@@ -3,7 +3,7 @@ import { Card, CardBody, CardTitle, CardText, CardImg } from "reactstrap"
 import CommentForm from "./CommentFormComponent"
 import { Loading } from "./LoadingComponent"
 import { BASE_URL } from "../shared/baseUrl";
-import { ContextProvider } from '../App'
+import { ContextProvider } from '../providers/provider'
 
 
 export function DishDetailFromDishID({ match, commentsErrMess, isLoading, errMess }) {
@@ -13,8 +13,8 @@ export function DishDetailFromDishID({ match, commentsErrMess, isLoading, errMes
 
     const dishId = parseInt(match.params.dishId, 10)
     console.log(`dishId is ${dishId}`)
-    const dish = dishes.filter(dish => dish.id == dishId)[0]
-    const dishComments = comments.filter(comment => comment.dishId === dishId)
+    const dish = dishes && dishes.filter(dish => dish.id == dishId)[0]
+    const dishComments = comments && comments.filter(comment => comment.dishId === dishId)
     return <DishCommentsDetail selectedDish={dish}
         selectedComments={dishComments}
         dishId={dishId}

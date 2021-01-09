@@ -2,10 +2,6 @@ import 'firebase/firebase-firestore'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/storage'
-import dishes from './shared/dishes'
-import comments from './shared/comments'
-import leaders from './shared/leaders'
-import promotions from './shared/promotions'
 
 var firebaseConfig = {
     apiKey: "AIzaSyA8MOHtlsgvpdsAtXDb68q0tbb0UttBJe0",

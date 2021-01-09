@@ -3,7 +3,7 @@ import { Card, CardBody, CardImg, CardText, CardTitle, Breadcrumb, BreadcrumbIte
 import { Link } from "react-router-dom"
 import { Loading } from "./LoadingComponent"
 import { BASE_URL } from "../shared/baseUrl";
-import { ContextProvider } from '../App'
+import { ContextProvider } from '../providers/provider'
 export default function Menu(props) {
     // if (props.dishes.isLoading) {
     //     return <Loading></Loading>
@@ -12,7 +12,7 @@ export default function Menu(props) {
 
     // if (props.dishes.errMess) return <h1>{props.dishes.errMess}</h1>
     var { dishes } = useContext(ContextProvider)
-    const menu = dishes.map(dish => {
+    const menu = dishes && dishes.map(dish => {
         return (
             <div key={dish.id} className="col-12 col-md-5">
                 <Link to={`/menu/${dish.id}`}>

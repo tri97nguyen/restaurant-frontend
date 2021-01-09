@@ -1,7 +1,7 @@
 import React, { useContext } from "react"
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from "reactstrap"
 import { Link } from "react-router-dom"
-import { ContextProvider } from '../App'
+import { ContextProvider } from '../providers/provider'
 
 export default function About() {
     var { leaders } = useContext(ContextProvider)
@@ -72,7 +72,7 @@ export default function About() {
     )
 
     function RenderLeaders({ leadersList }) {
-        leadersList = leadersList.map(leader =>
+        leadersList = leadersList && leadersList.map(leader =>
             <Media className="mt-5 mb-5">
                 {console.log(`/public${leader.image}`)}
                 <Media left >

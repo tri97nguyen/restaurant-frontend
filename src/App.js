@@ -6,25 +6,19 @@ import leaders from './shared/leaders'
 import promotions from './shared/promotions'
 import comments from './shared/comments'
 import { firestore } from './firebase'
-export const ContextProvider = createContext(null)
-const store = { dishes, leaders, promotions, comments }
+import Provider from './providers/provider'
+
 class App extends Component {
 
   render() {
-    var nothing = firestore.collection('nothing')
     return (
-      <ContextProvider.Provider value={store}>
-
+      <Provider>
         <BrowserRouter>
           <div className="App">
             <Main />
           </div>
         </BrowserRouter>
-
-      </ContextProvider.Provider>
-
-
-
+      </Provider>
     );
   }
 }
