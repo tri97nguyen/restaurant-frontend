@@ -5,12 +5,13 @@ import dishes from './shared/dishes'
 import leaders from './shared/leaders'
 import promotions from './shared/promotions'
 import comments from './shared/comments'
-
+import { firestore } from './firebase'
 export const ContextProvider = createContext(null)
 const store = { dishes, leaders, promotions, comments }
 class App extends Component {
 
   render() {
+    var nothing = firestore.collection('nothing')
     return (
       <ContextProvider.Provider value={store}>
 
