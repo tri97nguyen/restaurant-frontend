@@ -10,11 +10,11 @@ export function DishDetailFromDishID({ match, commentsErrMess, isLoading, errMes
     // if (isLoading) return <Loading></Loading>
     // if (errMess) return <h1>{errMess}</h1>
     var { dishes, comments } = useContext(ContextProvider)
-
-    const dishId = parseInt(match.params.dishId, 10)
-    console.log(`dishId is ${dishId}`)
-    const dish = dishes && dishes.filter(dish => dish.id == dishId)[0]
-    const dishComments = comments && comments.filter(comment => comment.dishId === dishId)
+    const dishId = match.params.dishId
+    const dish = dishes && dishes.filter(dsh => dsh.id == dishId)[0]
+    const dishComments = comments && comments.filter(comment => {
+        return comment.dishRef.id === dishId
+    })
     return <DishCommentsDetail selectedDish={dish}
         selectedComments={dishComments}
         dishId={dishId}
@@ -47,7 +47,8 @@ function RenderComments({ selectedComments, dishId, commentsErrMess }) {
             return (
                 <div key={comment.id} className="m-2">
                     <p>{comment.comment}</p>
-                    <p>-- {comment.author} - {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(Date.parse(comment.date)))}</p>
+                    <p>{comment.author} -- {new Date(comment.date._seconds * 1000).toLocaleDateString("en-US")}</p>
+                    {/* <p>-- {comment.author} - {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(Date.parse(comment.date)))}</p> */}
                 </div>
             )
         })
