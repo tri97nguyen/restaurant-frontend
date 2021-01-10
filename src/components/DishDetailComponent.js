@@ -5,7 +5,6 @@ import { Loading } from "./LoadingComponent"
 import { BASE_URL } from "../shared/baseUrl";
 import { ContextProvider } from '../providers/provider'
 
-
 export function DishDetailFromDishID({ match, commentsErrMess, isLoading, errMess }) {
     // if (isLoading) return <Loading></Loading>
     // if (errMess) return <h1>{errMess}</h1>
@@ -47,7 +46,7 @@ function RenderComments({ selectedComments, dishId, commentsErrMess }) {
             return (
                 <div key={comment.id} className="m-2">
                     <p>{comment.comment}</p>
-                    <p>{comment.author} -- {new Date(comment.date._seconds * 1000).toLocaleDateString("en-US")}</p>
+                    <p>{comment.author} -- {comment.date.toDate().toLocaleTimeString('en-US')}</p>
                     {/* <p>-- {comment.author} - {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(Date.parse(comment.date)))}</p> */}
                 </div>
             )
