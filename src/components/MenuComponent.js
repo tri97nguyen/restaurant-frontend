@@ -17,7 +17,7 @@ export default function Menu(props) {
             <div key={dish.id} className="col-12 col-md-5">
                 <Link to={`/menu/${dish.id}`}>
                     <Card>
-                        <CardImg src={BASE_URL + dish.image} alt={dish.name}></CardImg>
+                        <CardImg src={dish.image} alt={dish.name}></CardImg>
                         <CardBody>
                             <CardTitle>{dish.name}</CardTitle>
                             <CardText>{dish.description}</CardText>

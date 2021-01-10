@@ -38,7 +38,7 @@ const RenderCard = function ({ item, isLoading, errMess }) {
     if (item)
         return (
             <Card>
-                <CardImg top src={BASE_URL + item.image} width="100%" />
+                <CardImg top src={item.image} width="100%" />
                 <CardBody>
                     <CardTitle>{item.name}</CardTitle>
                     <CardSubtitle>{item.designation}</CardSubtitle>

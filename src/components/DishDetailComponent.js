@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { Card, CardBody, CardTitle, CardText, CardImg } from "reactstrap"
 import CommentForm from "./CommentFormComponent"
-import { Loading } from "./LoadingComponent"
 import { BASE_URL } from "../shared/baseUrl";
 import { ContextProvider } from '../providers/provider'
 
@@ -46,8 +45,7 @@ function RenderComments({ selectedComments, dishId, commentsErrMess }) {
             return (
                 <div key={comment.id} className="m-2">
                     <p>{comment.comment}</p>
-                    <p>{comment.author} -- {comment.date.toDate().toLocaleTimeString('en-US')}</p>
-                    {/* <p>-- {comment.author} - {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(Date.parse(comment.date)))}</p> */}
+                    <p>-- {comment.author} - {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(Date.parse(comment.date.toDate())))}</p>
                 </div>
             )
         })
@@ -69,7 +67,7 @@ const RenderDish = ({ selectedDish }) => {
         return (
 
             <Card>
-                <CardImg src={BASE_URL + selectedDish.image} top />
+                <CardImg src={selectedDish.image} top />
                 <CardBody>
                     <CardTitle>{selectedDish.name}</CardTitle>
                     <CardText>{selectedDish.description}</CardText>

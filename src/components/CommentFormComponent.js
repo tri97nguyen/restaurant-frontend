@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { ContextProvider } from '../providers/provider'
 import { Modal, ModalBody, Button, Label, FormGroup } from "reactstrap"
-import { firestore } from "../firebase"
+import { firestore, storage } from "../firebase"
 
 export default class CommentForm extends Component {
     static contextType = ContextProvider
@@ -90,7 +90,6 @@ export default class CommentForm extends Component {
                     </ModalBody>
                 </Modal>
                 <Button outline color="primary" onClick={this.toggleModal}>Submit Comment</Button>
-
             </React.Fragment>
         )
     }
