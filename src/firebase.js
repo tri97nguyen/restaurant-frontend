@@ -1,24 +1,24 @@
-import 'firebase/firebase-firestore'
-import firebase from 'firebase/app'
-import 'firebase/auth'
-import 'firebase/storage'
+import "firebase/firebase-firestore"
+import firebase from "firebase/app"
+import "firebase/auth"
+import "firebase/storage"
 
 var firebaseConfig = {
-    apiKey: "AIzaSyA8MOHtlsgvpdsAtXDb68q0tbb0UttBJe0",
-    authDomain: "restaurant-42709.firebaseapp.com",
-    projectId: "restaurant-42709",
-    storageBucket: "restaurant-42709.appspot.com",
-    messagingSenderId: "160393098715",
-    appId: "1:160393098715:web:edd37d17ca1e3c49e9a3fe",
-    measurementId: "G-TH93YDFP4C"
-};
+  apiKey: "AIzaSyA8MOHtlsgvpdsAtXDb68q0tbb0UttBJe0",
+  authDomain: "restaurant-42709.firebaseapp.com",
+  projectId: "restaurant-42709",
+  storageBucket: "restaurant-42709.appspot.com",
+  messagingSenderId: "160393098715",
+  appId: "1:160393098715:web:edd37d17ca1e3c49e9a3fe",
+  measurementId: "G-TH93YDFP4C",
+}
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig)
 
 export var firestore = firebase.firestore()
 export const auth = firebase.auth()
 export const storage = firebase.storage()
+export var provider = new firebase.auth.GoogleAuthProvider()
 
 window.firestore = firestore
-

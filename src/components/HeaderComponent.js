@@ -19,7 +19,7 @@ import {
   Col,
 } from "reactstrap"
 import { NavLink, Link } from "react-router-dom"
-
+import { auth, provider } from "../firebase"
 class Header extends Component {
   constructor(props) {
     super(props)
@@ -32,7 +32,15 @@ class Header extends Component {
     this.toggleNavbar = this.toggleNavbar.bind(this)
     this.toggleModal = this.toggleModal.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.loginWithGoogle = this.loginWithGoogle.bind(this)
   }
+
+  async loginWithGoogle(e) {
+    e.preventDefault()
+    var user = await auth.signInWithRedirect(provider)
+    console.log(user)
+  }
+
   toggleNavbar() {
     this.setState({ isOpen: !this.state.isOpen })
   }
@@ -93,6 +101,9 @@ class Header extends Component {
                 </Col>
               </FormGroup>
             </Form>
+            <Button color="danger" onClick={this.loginWithGoogle}>
+              Log in with google
+            </Button>
           </ModalBody>
         </Modal>
 
@@ -119,9 +130,11 @@ class Header extends Component {
                     <span className="fa fa-info fa-lg">About Us</span>
                   </NavLink>
                 </NavItem>
-                {/* <NavItem>
-                                <NavLink className="nav-link" to="/contactus"><span className="fa fa-address-card fa-lg">Contact Us</span></NavLink>
-                            </NavItem> */}
+                <NavItem>
+                  <NavLink className="nav-link" to="/contactus">
+                    <span className="fa fa-address-card fa-lg">Contact Us</span>
+                  </NavLink>
+                </NavItem>
               </Nav>
               <Button color="success" onClick={this.toggleModal}>
                 Sign In
