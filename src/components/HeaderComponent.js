@@ -19,14 +19,17 @@ import {
   Col,
 } from "reactstrap"
 import { NavLink, Link } from "react-router-dom"
-import { auth, provider } from "../firebase"
+import { auth, firestore, provider } from "../firebase"
+import { ContextProvider } from "../providers/provider";
 class Header extends Component {
+  static contextType = ContextProvider
   constructor(props) {
     super(props)
     this.state = {
       isOpen: false,
       modalIsOpen: false,
     }
+
     this.usernameInput = React.createRef()
     this.passwordInput = React.createRef()
     this.toggleNavbar = this.toggleNavbar.bind(this)
@@ -35,10 +38,9 @@ class Header extends Component {
     this.loginWithGoogle = this.loginWithGoogle.bind(this)
   }
 
-  async loginWithGoogle(e) {
-    e.preventDefault()
-    var user = await auth.signInWithRedirect(provider)
-    console.log(user)
+  async loginWithGoogle() {
+    await auth.signInWithPopup(provider)
+    this.toggleModal()
   }
 
   toggleNavbar() {
@@ -57,7 +59,21 @@ class Header extends Component {
     alert(`username is ${username}\npassword is ${password}`)
     e.preventDefault()
   }
+
+  UserSmallProfile({ displayName, photoURL }) {
+    return (<>
+      <div className="center-flexbox">
+        <img src={photoURL} className="small-profile-image"/>
+        {displayName}
+      </div>
+
+      <Button color="primary" onClick={() => auth.signOut()}>Sign out</Button>
+    </>)
+  }
+
   render() {
+    var user = this.context.user
+    console.log("user is ", user)
     return (
       <React.Fragment>
         <Modal
@@ -136,9 +152,10 @@ class Header extends Component {
                   </NavLink>
                 </NavItem>
               </Nav>
-              <Button color="success" onClick={this.toggleModal}>
+              {user ? <this.UserSmallProfile {...user} /> : (<Button color="success" onClick={this.toggleModal}>
                 Sign In
-              </Button>
+              </Button>)}
+
             </Collapse>
           </div>
         </Navbar>
@@ -160,5 +177,7 @@ class Header extends Component {
     )
   }
 }
+
+
 
 export default Header

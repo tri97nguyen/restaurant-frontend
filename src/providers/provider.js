@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState, useCallback } from "react"
-import { firestore } from "../firebase"
+import { firestore, auth } from "../firebase"
 
 export var ContextProvider = createContext(null)
 
@@ -9,6 +9,7 @@ export default function Provider(props) {
     comments: null,
     promotions: null,
     leaders: null,
+    user: null,
   })
   useEffect(function providerUseEffect() {
     var unsubscribeFunctions = [
@@ -17,6 +18,8 @@ export default function Provider(props) {
       "leaders",
       "promotions",
     ].map((collection) => fetchDataAndListenUpdate(collection))
+    var unsub = listenLoginLogout()
+    unsubscribeFunctions.concat(unsub)
     return () => unsubscribeFunctions.forEach((func) => func())
   }, [])
 
@@ -53,11 +56,24 @@ export default function Provider(props) {
 
     return unsubscribe
   },
-  [])
+    [])
 
+  function listenLoginLogout() {
+    var unsub = auth.onAuthStateChanged(authUser => {
+      console.log("auth state changed")
+      if (authUser) {
+        let { displayName, photoURL } = authUser
+        let user = { displayName, photoURL }
+        setValue(prevUser => ({ ...prevUser, user }))
+      }
+      else setValue(prevValue => ({ ...prevValue, user: null }))
+    })
+    return unsub
+  }
   return (
     <ContextProvider.Provider value={value}>
       {props.children}
     </ContextProvider.Provider>
   )
 }
+
